@@ -18,6 +18,19 @@ Plug 'Yggdroot/indentLine'
 Plug 'jiangmiao/auto-pairs'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'phbortolotti/focanocodigo.vim'
+
+"" HTML Bundle
+Plug 'hail2u/vim-css3-syntax'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'tpope/vim-haml'
+Plug 'mattn/emmet-vim'
+
+"" Javascript Bundle
+Plug 'jelera/vim-javascript-syntax'
+
+"" Golang Bundle
+Plug 'fatih/vim-go'
 
 call plug#end()
 
@@ -152,3 +165,51 @@ nnoremap <c-p> :Files<cr>
 nnoremap <c-f> :Ag<space>
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 set grepprg=ag\ --nogroup\ --nocolor
+
+
+" --------------------------------------------------------------------------------
+" Custom configs
+" --------------------------------------------------------------------------------
+
+" HTML
+" For html files, 2 spaces
+autocmd Filetype html setlocal ts=2 sw=2 expandtab
+
+
+" Javascript
+let g:javascript_enable_domhtmlcss = 1
+
+" vim-javascript
+augroup vimrc-javascript
+  autocmd!
+  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4
+augroup END
+
+
+" Golang
+" vim-go
+" run :GoBuild or :GoTestCompile based on the go fil
+
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_extra_types = 1
