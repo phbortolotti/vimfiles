@@ -19,6 +19,8 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'phbortolotti/focanocodigo.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 "" HTML Bundle
 Plug 'hail2u/vim-css3-syntax'
@@ -96,13 +98,6 @@ set inccommand=split
 " set leader key
 let mapleader="\<space>"
 
-"" Config
-nnoremap <leader>ev :vsplit ~/.config/nvim/init.vim<cr>
-nnoremap <leader>sv :source ~/.config/nvim/init.vim<cr>
-
-"" Terminal emulation
-nnoremap <silent> <leader>sh :terminal<cr>
-
 
 " --------------------------------------------------------------------------------
 " Visual settings
@@ -128,6 +123,10 @@ nnoremap N Nzzzv
 "" Status line
 set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 
+if exists("*fugitive#statusline")
+  set statusline+=%{fugitive#statusline()}
+endif
+
 "" vim-airline
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -148,28 +147,66 @@ let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-nnoremap <silent> <F2> :NERDTreeFind<CR>
-nnoremap <silent> <F3> :NERDTreeToggle<CR>
 
 " ultisnips
 let g:UltiSnipsEditSplit = "vertical"
 let g:UtilSnipsSnippetDir = '~/.config/nvim/snippets'
 
-"" fzf
-set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+
+" --------------------------------------------------------------------------------
+" Mappings
+" --------------------------------------------------------------------------------
+
+" Config
+nnoremap <leader>ev :vsplit ~/.config/nvim/init.vim<cr>
+nnoremap <leader>sv :source ~/.config/nvim/init.vim<cr>
+
+" Terminal emulation
+nnoremap <silent> <leader>sh :terminal<cr>
+
+" Split
+nnoremap <Leader>h :<C-u>split<CR>
+nnoremap <Leader>v :<C-u>vsplit<CR>
+
+" Move among buffers with CTRL
+nnoremap <c-j> :bnext<CR>
+nnoremap <c-k> :bprev<CR>
+
+" FZF
 nnoremap <c-p> :Files<cr>
 
-"" Silver search
+" Ag
 nnoremap <c-f> :Ag<space>
-let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
-set grepprg=ag\ --nogroup\ --nocolor
+
+" NERDTree
+nnoremap <silent> <F2> :NERDTreeFind<CR>
+nnoremap <silent> <F3> :NERDTreeToggle<CR>
+
+" Git
+noremap <Leader>ga :Gwrite<CR>
+noremap <Leader>gc :Gcommit<CR>
+noremap <Leader>gsh :Gpush<CR>
+noremap <Leader>gll :Gpull<CR>
+noremap <Leader>gs :Gstatus<CR>
+noremap <Leader>gb :Gblame<CR>
+noremap <Leader>gd :Gvdiff<CR>
+noremap <Leader>gr :Gremove<CR>
 
 
 " --------------------------------------------------------------------------------
 " Custom configs
 " --------------------------------------------------------------------------------
+
+" FZF
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+
+
+" Ag
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+set grepprg=ag\ --nogroup\ --nocolor
+
 
 " HTML
 " For html files, 2 spaces
@@ -182,7 +219,7 @@ let g:javascript_enable_domhtmlcss = 1
 " vim-javascript
 augroup vimrc-javascript
   autocmd!
-  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4
+  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2
 augroup END
 
 
