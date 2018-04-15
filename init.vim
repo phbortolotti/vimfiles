@@ -40,6 +40,9 @@ Plug 'eagletmt/neco-ghc'
 Plug 'dag/vim2hs'
 Plug 'pbrisbin/vim-syntax-shakespeare'
 
+"" Puppet
+Plug 'rodjek/vim-puppet'
+
 call plug#end()
 
 
@@ -293,3 +296,12 @@ let g:haskell_conceal_wide = 1
 let g:haskell_multiline_strings = 1
 let g:necoghc_enable_detailed_browse = 1
 autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
+
+" Puppet
+" Specific shiftwidth for puppet files
+autocmd BufRead,BufNewFile *.pp set filetype=puppet
+autocmd BufRead,BufNewFile Puppetfile set filetype=ruby
+
+" And custom tab sizes too
+autocmd FileType puppet set shiftwidth=2
+autocmd FileType puppet set tabstop=2
