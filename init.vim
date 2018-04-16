@@ -22,6 +22,8 @@ Plug 'phbortolotti/focanocodigo.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'tomtom/tcomment_vim'
 
 "" HTML Bundle
 Plug 'hail2u/vim-css3-syntax'
@@ -50,6 +52,12 @@ call plug#end()
 " Basics settings
 " --------------------------------------------------------------------------------
 
+" Display incomplete commands.
+set showcmd
+
+" Display the mode you're in.
+set showmode
+
 "" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
@@ -63,6 +71,15 @@ set mouse=a
 "" Fix backspace indent
 set backspace=indent,eol,start
 
+" Handle multiple buffers better.
+set hidden
+
+" Enhanced command line completion.
+set wildmenu
+
+" Complete files like a shell.
+set wildmode=list:longest
+
 "" Tabs. May be overriten by autocmd rules
 set tabstop=4
 set softtabstop=0
@@ -74,6 +91,13 @@ set hlsearch
 set incsearch
 set ignorecase
 set smartcase
+set nohlsearch
+
+" Turn off line wrapping.
+set nowrap
+
+" Show 3 lines of context around the cursor.
+set scrolloff=3
 
 "" Directories for swp files
 set nobackup
@@ -121,16 +145,15 @@ set background=dark
 set number
 set relativenumber
 
-"" Status bar
-set laststatus=2
-
 "" Search mappings: These will make it so that going to the next one in a
 "" search will center on the line it's found in.
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-"" Status line
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
+" Show the status line all the time
+set laststatus=2
+" Useful status information at bottom of screen
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
 
 if exists("*fugitive#statusline")
   set statusline+=%{fugitive#statusline()}
