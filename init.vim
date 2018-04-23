@@ -25,24 +25,27 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tomtom/tcomment_vim'
 
-"" HTML Bundle
+" HTML Bundle
 Plug 'hail2u/vim-css3-syntax'
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'tpope/vim-haml'
 Plug 'mattn/emmet-vim'
 
-"" Javascript Bundle
+" Javascript Bundle
 Plug 'jelera/vim-javascript-syntax'
 
-"" Golang Bundle
+" Python Bundle
+Plug 'davidhalter/jedi-vim'
+
+" Golang Bundle
 Plug 'fatih/vim-go'
 
-"" Haskell Bundle
+" Haskell Bundle
 Plug 'eagletmt/neco-ghc'
 Plug 'dag/vim2hs'
 Plug 'pbrisbin/vim-syntax-shakespeare'
 
-"" Puppet
+" Puppet
 Plug 'rodjek/vim-puppet'
 
 call plug#end()
@@ -229,6 +232,13 @@ noremap <Leader>gr :Gremove<CR>
 " Custom configs
 " --------------------------------------------------------------------------------
 
+" nvim-completion-manager
+" disable auto popup
+let g:cm_auto_popup = 0
+" alt + enter
+imap <a-cr> <Plug>(cm_force_refresh)
+
+
 " FZF
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
@@ -290,7 +300,6 @@ augroup completion_preview_close
 augroup END
 
 augroup go
-
   au!
   au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
   au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
@@ -311,7 +320,6 @@ augroup go
   au FileType go imap <C-g> <esc>:<C-u>GoDecls<cr>
   au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
   au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
-
 augroup END
 
 " Haskell
@@ -328,3 +336,32 @@ autocmd BufRead,BufNewFile Puppetfile set filetype=ruby
 " And custom tab sizes too
 autocmd FileType puppet set shiftwidth=2
 autocmd FileType puppet set tabstop=2
+
+" Python
+" vim-python
+augroup vimrc-python
+  autocmd!
+  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
+      \ formatoptions+=croq softtabstop=4
+      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+augroup END
+
+" jedi-vim
+let g:jedi#popup_on_dot = 0
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#rename_command = "<leader>r"
+let g:jedi#show_call_signatures = "0"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#smart_auto_mappings = 0
+
+" vim-airline
+let g:airline#extensions#virtualenv#enabled = 1
+
+" Syntax highlight
+" Default highlight is better than polyglot
+let g:polyglot_disabled = ['python']
+let python_highlight_all = 1
+
